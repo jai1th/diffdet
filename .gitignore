@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Model artifacts / data — never commit weights, caches, or manifests here.
+# Weights live on Hugging Face; datasets are not redistributed (see DATASETS.md).
+*.pt
+*.pth
+*.ckpt
+*.jsonl
+*.mp4
+*.avi
+*.mov
+
+# OS
+.DS_Store

@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this code or the associated model, please cite the thesis below. A journal paper is in preparation and will replace this entry when published."
+title: "Mixed-Domain Supervised Contrastive Adaptation for End-to-End AI-Generated Video Detection"
+authors:
+  - family-names: Melanaturu
+    given-names: Jaivanth
+type: software
+license: MIT
+year: 2026
+url: "https://github.com/jai1th/diffdet"
+repository-artifact: "https://huggingface.co/jai1th/dvf_trained_transferred_aegis"
+keywords:
+  - ai-generated-video-detection
+  - supervised-contrastive-learning
+  - r2plus1d
+  - cross-dataset-transfer
+  - domain-retention
+
+references:
+  - type: thesis
+    title: "Mixed-Domain Supervised Contrastive Adaptation for End-to-End AI-Generated Video Detection"
+    authors:
+      - family-names: Melanaturu
+        given-names: Jaivanth
+    year: 2026
+    # TODO: add institution, thesis type (Master's/PhD), and a permanent URL/handle once available.
+
+# TODO (journal paper, when published): add a `preferred-citation:` block of type `article`
+# with the final title, authors, venue, year, and DOI, and a matching reference above.
+# TODO (optional): mint a Zenodo DOI for the tagged release and add it as `doi:` here.

@@ -1,0 +1,76 @@
+{
+  "model_type": "r2plus1d_supcon",
+  "framework": "pytorch",
+  "task": "video-classification",
+  "description": "R(2+1)D + mixed-domain supervised-contrastive model for end-to-end AI-generated video detection. DVF-trained backbone transferred to AEGIS while retaining DVF and GenVideo.",
+
+  "architecture": {
+    "backbone": "torchvision r2plus1d_18",
+    "backbone_init": "from_scratch (NOT Kinetics-400 pretrained)",
+    "backbone_dim": 512,
+    "classifier_head": {
+      "name": "fc",
+      "layers": "Linear(512 -> 2)",
+      "note": "supervised baseline head carried in the checkpoint; not used by the prototype eval protocol"
+    },
+    "projection_head": {
+      "name": "proj_head",
+      "layers": "Linear(512 -> 512) -> ReLU -> Linear(512 -> 128)",
+      "output": "L2-normalised 128-d embedding",
+      "note": "eval/inference operates in this projection space"
+    },
+    "total_params": 31629471
+  },
+
+  "preprocessing": {
+    "clip_len": 24,
+    "target_fps": 24.0,
+    "frame_size": [224, 224],
+    "pixel_range": [0.0, 1.0],
+    "channel_order": "RGB",
+    "tensor_layout": "(B, C, T, H, W)",
+    "kinetics_mean_std_normalisation": false
+  },
+
+  "checkpoint_layout": {
+    "format": "dict",
+    "keys": ["epoch", "model_state_dict", "optimizer_state_dict", "best_selection_score", "args"],
+    "load_from": "model_state_dict",
+    "state_dict_prefix": "none (flat r2plus1d_18 keys: stem.*, layer1-4.*, fc.*, proj_head.*)",
+    "strict_load": true,
+    "tensor_count": 228
+  },
+
+  "training": {
+    "stage": "mixed-domain supervised contrastive fine-tuning (run6)",
+    "loss": "SupConLoss",
+    "temperature": 0.07,
+    "optimizer": "AdamW",
+    "lr": 5e-05,
+    "weight_decay": 1e-05,
+    "epochs": 20,
+    "best_epoch": 16,
+    "best_selection_score": 0.8397476673126221,
+    "clip_len": 24,
+    "target_fps": 24.0,
+    "batch_size": 24,
+    "unfreeze_policy": "layer4_all",
+    "proj_hidden_dim": 512,
+    "proj_dim": 128,
+    "domain_loss_weights": {"target_aegis": 0.5, "dvf": 0.3, "genvideo": 0.2},
+    "generator_aware_batch_sampling": true
+  },
+
+  "eval_protocol": {
+    "embedding_source": "projection",
+    "method": "fixed prototypes: build one real/fake prototype pair as the L2-normalised mean of a labeled support bank in projection space; score each query clip by score = sim_fake - sim_real; decide fake if score >= 0.0",
+    "support_per_class_per_domain": 10,
+    "decision_threshold": 0.0,
+    "scripts": ["build_prototypes_from_support_jsonl.py", "prototype_inference_from_saved_prototypes.py"],
+    "note": "support sets drawn from labeled data of the same datasets; this is a representation/adaptation assessment, not a deployed binary classifier"
+  },
+
+  "transfer_lineage": "DVF-trained R(2+1)D backbone (from scratch, no Kinetics) -> 3-domain mixed supervised-contrastive fine-tuning (AEGIS target + DVF + GenVideo retention) -> projection-space prototype inference",
+
+  "license": "cc-by-nc-4.0"
+}
