@@ -11,9 +11,9 @@ on the families it already knew (DVF, GenVideo). The answer here is yes: a
 sampling, adapts an R(2+1)D backbone to the new target *and* holds onto the
 source domains — instead of trading one for the other.
 
-> 🚀 **Live demo:** https://huggingface.co/spaces/jai1th/ai-generated-video-detection
-> &nbsp;·&nbsp; 🧠 **Model & weights:** https://huggingface.co/jai1th/dvf_trained_transferred_aegis
-> \n Thesis Publication: https://doi.org/10.7302/dspace/29187
+>🚀 **Live demo:** https://huggingface.co/spaces/jai1th/ai-generated-video-detection
+>🧠 **Model & weights:** https://huggingface.co/jai1th/dvf_trained_transferred_aegis
+>Thesis Publication: https://doi.org/10.7302/dspace/29187
 
 > **What this repo is.** The faithful implementation and headline results from the
 > thesis — *not* a turnkey reproduction package. Datasets are not redistributed
